@@ -1,0 +1,116 @@
+:root {
+    /* Colors */
+    /* Color Palette: 60/30/10 ideal ratio. */
+    --accent:       #ff7f00;
+    /* Helper Colors: White and black for text. */
+    --black:        #000000;
+    --white:        #ffffff;
+    /* Relative Font Size: Main scalar variable to modify site proportions across platforms. */
+    font-size:      clamp(1rem, 1.0vw, 2rem);
+}
+
+html { 
+    /* Details */
+    scroll-behavior: smooth; 
+}
+
+body {
+    /* Sizes */
+    margin:         0;      /* Undoing default body margin. */
+    /* Details */
+    font-family:    Verdana, sans-serif;
+    overflow-y:     hidden;
+}
+
+main {
+    /* Sizes */
+    height:         calc(100vh - 3.5rem);
+    padding-left:   27.5%;
+    padding-right:  27.5%;
+    /* Details */
+    overflow-y:     scroll;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* Details */
+    font-family: Helvetica, sans-serif;
+}
+
+h2 {
+    padding-top: 2vh;
+}
+
+p {
+    /* Sizes */
+    text-indent: 3rem;
+}
+
+li {
+    /* Sizes */
+    margin-top:     0.8rem;
+    margin-bottom:  0.8rem;
+}
+
+*.centered {
+    /* Details */
+    justify-self: center;
+}
+
+/* Navbar class and associated classes. */
+.navBar {
+    /* Colors */
+    color:              var(--white);
+    background-color:   var(--accent);
+    /* Sizes */
+    height:             3.5rem;
+    width:              100vw;
+    /* Details */
+    display:            flex;
+    align-content:      center;
+    align-items:        center;
+    position:           sticky;
+    top:                0;
+    left:               0;
+}
+
+.navLinks {
+  /* Sizes */
+  margin:           0;
+  margin-left:      auto;
+  padding:          0;
+  /* Details */
+  list-style-type:  none;
+  overflow:         hidden;
+  display:          flex;
+  justify-content:  center;
+}
+
+.navLinks li a {
+    /* Colors */
+    color:              var(--black);
+    background-color:   var(--white);
+    border-color:       var(--black);
+    /* Sizes */
+    margin:             0.50rem;
+    padding:            0.50rem;
+    border-radius:      1.00rem;
+    border-width:       0.20rem;
+    /* Details */
+    border-style:       solid;
+    display:            flex;
+    text-align:         center;
+    align-content:      center;
+    cursor:             pointer;
+    font-weight:        bold;
+}
+
+.navLinks li a.active {
+    /* Colors */
+    color:              var(--white);
+    background-color:   var(--accent);
+    border-color:       var(--white);
+    /* Details */
+    border-style:       solid;
+    cursor:             default;
+    pointer-events:     none;
+}
