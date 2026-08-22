@@ -20,15 +20,79 @@
             <li><a href="userPerspective.html" class="navButton">User's Perspective</a></li>
             <li><a href="devPerspective.html" class="navButton active">Developer's Perspective</a></li>
             <li><a href="myPerspective.html" class="navButton">My Perspective</a></li>
-            <li><a href="bibliography.html" class="navButton">Annotated Bibliograpy</a></li>
+            <li><a href="bibliography.html" class="navButton">Annotated Bibliography</a></li>
         </ul>
     </nav>
     <main>
         <h1 class="centered">Developer's Perspective</h1>
         <h3 class="centered">How Is Jumpstart Made?</h3>
-        <h2>Next Steps</h2>
-        <p>Next quarter, I will add supplementary pages such as the home page, calendar views, and settings menu. Ongoing efforts such as revising the system prompt and facilitating inputs and outputs of the main interaction loop will be continued. By the end of next quarter, I hope to be able to release Jumpstart as an open-source project on GitHub, as well as launch a web version.</p>
-        <p style="color:darkmagenta;">Note: This section is intentionally left short as the requirements are quite short, week 8 was rife with family circumstances, and the due date was updated with little notice. Rest assured this section will be expanded upon considerably for the final version.</p>
+        
+        <h2>Original Plan</h2>
+        <p>This section explains the plan for the overall structure of Jumpstart.</p>
+        <h3>Frontend - Layout & Design</h3>
+        <p>As a single-feature application, Jumpstart should be intuitive, navigable, and centered around its core feature. Figure 1 displays this by identifying the landing area, each page of which can access their own subpages and all other pages in the landing area.</p>
+        <i class="centered">Figure 1: Page Connections Overview</i>
+        <img src="initialPages.png" alt="Page Connection Overview"></img>
+        <p>But the home page is not always the landing page for the user. On first launch, Jumpstart provides an optional startup survey, wherein the user is notified of application policy before being queried for guiding, general information such as hobbies they are interested in and what times they are available.</p>
+        <p>In terms of graphical design, Jumpstart strives to maintain a 60:30:10 color ratio of white, orange, and black. White and black are primarily used to maintain high-contrast text backgrounds, while the color orange is commonly associated with energy and enthusiasm, matching the motivational goals of the application.</p>
+        <i class="centered">Figure 2: Startup Survey Design Mock-up</i>
+        <img src="surveyDesign.png" alt="Survey Design Mock-up"></img>
+        <h3>Backend - Langauges & Libraries</h3>
+        <p>When determining which languages to use, I judged on the following factors: familiarity, compatibility with LLM software, and frontend access. 
+        <ul>
+            <li>Familiarity was critical to ensuring that the project did not overscope due to learning pains.</li>
+            <li>Compatibility with LLM software was mandatory to fulfill the core functionality of Jumpstart without making an interface by hand.</li>
+            <li>Frontend access (specifically JavaScript interaction) was needed to ensure a user-LLM data pipeline.</li>
+        </ul>
+        <p>After careful consideration, I determined that the following languages would be the best fit for myself and the project:</p>
+        <ul>
+            <li>Backend: Python, as it is quite familiar, the go-to answer when it comes to LLM operations, and has many libraries for JavaScript interaction.</li>
+            <li>Frontend: HTML/CSS/JavaScript due to familiarity and the ability to copy-paste it in case of hosting a web version.</li>
+            <li>Storage: JSON due to its simplicity, readability, and categorizaiton of data.</li>
+        </ul>
+        <p>To connect the backend and frontend, I utilized the pywebview library to render HTML/CSS/JavaScript contents and communicate via a handmade API.</p>
+        <i class="centered">Figure 3: Data Flow Diagram</i>
+        <img src="dataFlowDiagram.png" alt="Data Flow Diagram"></img>
+        <h3>Model - Large Language Model (LLM)</h3>
+        <p>To find an LLM that fit the local, lightweight, free-to-use nature of Jumpstart, I scoured GitHub until I found an updated source for newer models that are free to use, and selected the Phi-3-mini-128k-instruct. Initially, I was interested in YuLan-Mini and Phi-4, but the former lacked instruct capabilities and the latter was approximately 30 gigabytes (GBs).</p>
+        <p>Even after prioritizing The Phi-3-mini-128k-instruct, it was still almost 8 GBs and had many files associated with it. To addres this, I pivoted to using a Generic GPT Unified Format (.gguf) file, which compressed it into one, smaller file at the cost of performance quality. </p>
+        <p>To maximize compression while retaining performance quality, I finalized LLM selection by utilizing the Phi-3-mini-128k-instruct-Q4_K_M.gguf. Although it's a mouthful, it is free to use, great at creating hobby plans, and only 2.39GB.</p>
+
+        <h2>Current Implementation</h2>
+        <p>This section explains the current progress of Jumpstart.</p>
+        <h3>Adapter Registry</h3>
+        <p>To enable users to add their LLMs of choice, Jumpstart features an adapter registry; a system that allows the user to add LLM adapters of their own for local or online LLM usage. The system operates on an abstract factory class with an example implementation provided along with the aforementioned LLM.</p>
+        <h3>System Prompt Rules</h3>
+        <p>Evolving over the course of the project, the system prompt has acquired rules both to better align it with Jumpstart's intended goal, and to steer it away from unexpected outcomes. One example occured in almost every response: when the user wants to begin a hobby, the LLM would respond with a hobby plan encouraging subscribing to paid online courses.</p>
+        <p>This undermined the purpose of Jumpstart, as there was no research involved, no flexibility for alternatives, and outsourced all organizing to for-profit organizations.</p>
+        <h3>Front-Back Pipeline</h3>
+        <p>To enable user-LLM communication or file modificaitons from an HTML-based website, Jumpstart uses a chain of interactions between JavaScript, pywebview, my handmade pywebview API in python, and the resulting adapter.</p>
+        <p>For LLMs, this means forwarding the user's prompt to the currently-attached LLM adapter, which is as simple as a function that takes a string and returns another.</p>
+        <p>For files, this means utilizing another handmade module: JSON read/write. To maintain formatting, both JavaScript and Python utilize JSON functions to ensure compatibility before converting and writing the file.</p>
+        <i class="centered">Figure 4: Layer Diagram</i>
+        <img src="layerDiagram.png" alt="Layer Diagram"></img>
+        
+        <h2>Future</h2>
+        <p>This section explains what's in store for Jumpstart.</p>
+        <h3>MVP Release</h3>
+        <p>By the end of next quarter, I plan to release Jumpstart as an open-source project under an MIT license. This depends on monumental amounts of progress and polish, but user testing is definitely within reach.</p>
+        <h3>Testing Suite</h3>
+        <p>As part of the project's completion, Jumpstart will utilize a combined objective/subjective testing suite. This combined system is used to address LLMs' nondeterministic behavior while watching key metrics.</p>
+        <p>The objective suite ensures that each module is functioning as intended, and that performative metrics such as LLM response time are within acceptable levels.</p>
+        <p>The subjective suite uses sample prompts and manual review to assess the LLM's ability to follow rules and provide relevant solutions.</p>
+        <h3>Extensions (Stretch Goals)</h3>
+        <p>Thanks to my peers and expert, I have many extensions planned for Jumpstart. These features would be opt-in and explicitly outline their dependent features and data.</p>
+        <ul>
+            <li>Google Calendar API Integration</li>
+            <li>Group Hobby Planning</li>
+            <li>Plan Difficulty Estimation</li>
+            <li>Follow-up Plans</li>
+            <li>Multi-stage Plans</li>
+            <li>Local Event API Scraping</li>
+            <li>Cross-Platform Support</li>
+            <li>Hobby Plan Preview</li>
+        </ul>
+        <div style="height: 50vh;"></div>
     </main>
 </body>
 

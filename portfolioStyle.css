@@ -37,12 +37,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h2 {
+    /* Sizes */
     padding-top: 2vh;
 }
 
-p {
+img {
     /* Sizes */
-    text-indent: 3rem;
+    height: auto;
+    max-height: 80vh;
+    width: auto;
+    max-width: 45vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    /* Details */
+    display:            flex;
+    align-items:        center;
+    justify-self:       center;
 }
 
 li {
@@ -51,11 +61,21 @@ li {
     margin-bottom:  0.8rem;
 }
 
+*.buffered {
+    /* Sizes */
+    margin-top: 2rem;
+}
+
 *.centered {
     /* Details */
     display:            flex;
     justify-content:    center;
     align-items:        center;
+}
+
+*.indented {
+    /* Sizes */
+    text-indent: 3rem;
 }
 
 /* Navbar class and associated classes. */
